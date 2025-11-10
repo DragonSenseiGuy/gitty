@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Client</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 800px;
+        }
+        .card {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="text-center mb-5">
+            <h1 class="display-4">Git Client</h1>
+            <p class="lead">Your friendly neighborhood Git GUI</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Clone a Repository</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="clone-form">
+                            <div class="mb-3">
+                                <label for="repo-url" class="form-label">Repository URL</label>
+                                <input type="text" class="form-control" id="repo-url" placeholder="https://github.com/user/repo.git" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="destination-path" class="form-label">Clone to (absolute path)</label>
+                                <input type="text" class="form-control" id="destination-path" placeholder="/path/to/clone/directory" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Clone</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Open Local Repository</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="open-local-form">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="local-repo-path" placeholder="/path/to/your/repo" required>
+                                <button type="submit" class="btn btn-secondary">Open</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+
+
+
+        document.getElementById('clone-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const repoUrl = document.getElementById('repo-url').value;
+            const destinationPath = document.getElementById('destination-path').value;
+
+            fetch('/clone', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ url: repoUrl, destination: destinationPath }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert(data.message || 'Clone successful!');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('An error occurred during cloning.');
+            });
+        });
+
+        document.getElementById('open-local-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const localRepoPath = document.getElementById('local-repo-path').value;
+            // In a real app, you would send this path to your Python backend
+            console.log(`Opening local repository: ${localRepoPath}`);
+            alert(`Opening local repository: ${localRepoPath}`);
+        });
+    </script>
+</body>
+</html>
