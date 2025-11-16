@@ -12,10 +12,20 @@ Gitty is a simple web based Git Client.
 
 ## Development
 
-### Create a virtual environment
-
+Make a virtual environment
 ```
 python3 -m venv .venv
+```
+
+Activate virtual environment
+
+Windows:
+```
+.venv\Scripts\activate
+```
+
+Linux/macOS:
+```
 source .venv/bin/activate
 ```
 
